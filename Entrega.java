@@ -1,20 +1,11 @@
-package javaapplication1;
-
 import java.lang.AssertionError;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
-import java.util.Stack;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /*
@@ -79,97 +70,30 @@ class Entrega {
      *
      * Vegeu el mètode Tema1.tests() per exemples.
      */
-      static int exercici1(int n) {
-     
-      int count = 0;
-      int totalCombinations = 1 << n; 
-      for (int i = 0; i < totalCombinations; i++) {
-        boolean[] values = new boolean[n];
-        for (int j = 0; j < n; j++) {
-          values[j] = (i & (1 << j)) != 0;
-        }
-        if (isFormulaTrue(values)) {
-          count++;
-        }
-      }
-      return count;
+    static int exercici1(int n) {
+      return 0; // TODO
     }
-
-    static boolean isFormulaTrue(boolean[] values) {
-      boolean result = values[0];
-      for (int i = 1; i < values.length; i++) {
-        result = !result || values[i];
-      }
-      return result;
-    }
-
 
     /*
      * És cert que ∀x : P(x) -> ∃!y : Q(x,y) ?
      */
     static boolean exercici2(int[] universe, Predicate<Integer> p, BiPredicate<Integer, Integer> q) {
-    for (int x : universe) {
-        if (p.test(x)) {
-            int count = 0;
-            for (int y : universe) {
-                if (q.test(x, y)) {
-                    count++;
-                }
-            }
-            if (count != 1) {
-                return false;
-            }
-        }
+      return false; // TODO
     }
-    return true;
-}
-
 
     /*
      * És cert que ∃x : ∀y : Q(x, y) -> P(x) ?
      */
     static boolean exercici3(int[] universe, Predicate<Integer> p, BiPredicate<Integer, Integer> q) {
-    for (int x : universe) {
-        boolean valid = true;
-        for (int y : universe) {
-            if (q.test(x, y) && !p.test(x)) {
-                valid = false;
-                break;
-            }
-        }
-        if (valid) {
-            return true;
-        }
+      return false; // TODO
     }
-    return false;
-}
-
 
     /*
      * És cert que ∃x : ∃!y : ∀z : P(x,z) <-> Q(y,z) ?
      */
     static boolean exercici4(int[] universe, BiPredicate<Integer, Integer> p, BiPredicate<Integer, Integer> q) {
-    for (int x : universe) {
-        int countY = 0;
-        for (int y : universe) {
-            boolean allMatch = true;
-            for (int z : universe) {
-                if (p.test(x, z) != q.test(y, z)) {
-                    allMatch = false;
-                    break;
-                }
-            }
-            if (allMatch) {
-                countY++;
-            }
-        }
-        if (countY == 1) {
-            return true;
-        }
+      return false; // TODO
     }
-    return false;
-}
-
 
     /*
      * Aquí teniu alguns exemples i proves relacionades amb aquests exercicis (vegeu `main`)
@@ -274,98 +198,25 @@ class Entrega {
    */
   static class Tema2 {
     /*
-     * Calculau el nombre d'elements del conjunt de parts de (a u b) × (a \ c)
+     * Calculau el nombre d'elements del conjunt (a u b) × (a \ c)
      *
      * Podeu soposar que `a`, `b` i `c` estan ordenats de menor a major.
      */
-static int exercici1(int[] a, int[] b, int[] c) {
-    // Calcular a U b
-    Set<Integer> unionAUB = new HashSet<>();
-    for (int x : a) unionAUB.add(x);
-    for (int x : b) unionAUB.add(x);
-
-    // Calcular a \ c
-    Set<Integer> differenceAminusC = new HashSet<>();
-    Set<Integer> setC = Arrays.stream(c).boxed().collect(Collectors.toSet());
-    for (int x : a) {
-        if (!setC.contains(x)) {
-            differenceAminusC.add(x);
-        }
+    static int exercici1(int[] a, int[] b, int[] c) {
+      return -1; // TODO
     }
 
-    // Tamaño de (a U b)
-    int sizeAUB = unionAUB.size();
-    int sizeAminusC = differenceAminusC.size();
-    int cartesianProductSize = sizeAUB * sizeAminusC;
-    return cartesianProductSize;
-}
-
-
-
-    // Ejercicio 2
-    
+    /*
+     * La clausura d'equivalència d'una relació és el resultat de fer-hi la clausura reflexiva, simètrica i
+     * transitiva simultàniament, i, per tant, sempre és una relació d'equivalència.
+     *
+     * Trobau el cardinal d'aquesta clausura.
+     *
+     * Podeu soposar que `a` i `rel` estan ordenats de menor a major (`rel` lexicogràficament).
+     */
     static int exercici2(int[] a, int[][] rel) {
-        int n = a.length;
-        DisjointSet ds = new DisjointSet(n);
-
-        
-        Map<Integer, Integer> indexMap = new HashMap<>();
-        for (int i = 0; i < n; i++) {
-            indexMap.put(a[i], i);
-        }
-
-        for (int[] pair : rel) {
-            ds.union(indexMap.get(pair[0]), indexMap.get(pair[1]));
-        }
-
-        for (int x : a) {
-            ds.union(indexMap.get(x), indexMap.get(x));
-        }
-
-        Set<Integer> uniqueParents = new HashSet<>();
-        for (int x : a) {
-            uniqueParents.add(ds.find(indexMap.get(x)));
-        }
-
-        return uniqueParents.size() * uniqueParents.size();
+      return -1; // TODO
     }
-
-    static class DisjointSet {
-        int[] parent, rank;
-
-        DisjointSet(int n) {
-            parent = new int[n];
-            rank = new int[n];
-            for (int i = 0; i < n; i++) {
-                parent[i] = i;
-                rank[i] = 0;
-            }
-        }
-
-        int find(int u) {
-            if (parent[u] != u) {
-                parent[u] = find(parent[u]);
-            }
-            return parent[u];
-        }
-
-        void union(int u, int v) {
-            int rootU = find(u);
-            int rootV = find(v);
-            if (rootU != rootV) {
-                if (rank[rootU] > rank[rootV]) {
-                    parent[rootV] = rootU;
-                } else if (rank[rootU] < rank[rootV]) {
-                    parent[rootU] = rootV;
-                } else {
-                    parent[rootV] = rootU;
-                    rank[rootU]++;
-                }
-            }
-        }
-    }
-
-
 
     /*
      * Comprovau si la relació `rel` és un ordre total sobre `a`. Si ho és retornau el nombre
@@ -374,58 +225,8 @@ static int exercici1(int[] a, int[] b, int[] c) {
      * Podeu soposar que `a` i `rel` estan ordenats de menor a major (`rel` lexicogràficament).
      */
     static int exercici3(int[] a, int[][] rel) {
-    int n = a.length;
-    boolean[][] relation = new boolean[n][n];
-
-    // matriz de relación
-    for (int[] pair : rel) {
-        int i = pair[0];
-        int j = pair[1];
-        relation[i][j] = true;
+      return -1; // TODO
     }
-
-    //orden total?
-    for (int i = 0; i < n; i++) {
-        if (!relation[i][i]) return -2; // Reflexiva
-        for (int j = 0; j < n; j++) {
-            if (i != j) {
-                if (!relation[i][j] && !relation[j][i]) return -2; // Comparabilidad
-                if (relation[i][j] && relation[j][i] && i != j) return -2; // Antisimetría
-            }
-        }
-    }
-
-    // transitividad?
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            for (int k = 0; k < n; k++) {
-                if (relation[i][j] && relation[j][k] && !relation[i][k]) return -2;
-            }
-        }
-    }
-
-    // Hasse
-    int hasseEdges = 0;
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            if (relation[i][j] && i != j) {
-                boolean isMinimal = true;
-                for (int k = 0; k < n; k++) {
-                    if (relation[i][k] && relation[k][j] && k != i && k != j) {
-                        isMinimal = false;
-                        break;
-                    }
-                }
-                if (isMinimal) {
-                    hasseEdges++;
-                }
-            }
-        }
-    }
-
-    return hasseEdges;
-}
-
 
 
     /*
@@ -436,64 +237,16 @@ static int exercici1(int[] a, int[] b, int[] c) {
      * lexicogràficament).
      */
     static int[][] exercici4(int[] a, int[][] rel1, int[][] rel2) {
-    Map<Integer, Integer> func1 = new HashMap<>();
-    Map<Integer, Integer> func2 = new HashMap<>();
-    
-    for (int[] pair : rel1) {
-        if (func1.put(pair[0], pair[1]) != null) {
-            return null; // Not a function
-        }
+      return new int[][] {}; // TODO
     }
-    
-    for (int[] pair : rel2) {
-        if (func2.put(pair[0], pair[1]) != null) {
-            return null; // Not a function
-        }
-    }
-
-    List<int[]> composition = new ArrayList<>();
-    for (int x : a) {
-        Integer intermediate = func1.get(x);
-        if (intermediate == null) {
-            return null;
-        }
-        Integer result = func2.get(intermediate);
-        if (result == null) {
-            return null;
-        }
-        composition.add(new int[] {x, result});
-    }
-
-    return composition.toArray(new int[composition.size()][]);
-}
-
 
     /*
      * Comprovau si la funció `f` amb domini `dom` i codomini `codom` té inversa. Si la té, retornau
      * el seu graf (el de l'inversa). Sino, retornau null.
      */
     static int[][] exercici5(int[] dom, int[] codom, Function<Integer, Integer> f) {
-    Map<Integer, Integer> funcMap = new HashMap<>();
-    Map<Integer, Integer> inverseMap = new HashMap<>();
-    
-    for (int x : dom) {
-        int y = f.apply(x);
-        if (funcMap.put(x, y) != null) {
-            return null; 
-        }
-        if (inverseMap.put(y, x) != null) {
-            return null; 
-        }
+      return new int[][] {}; // TODO
     }
-    
-    List<int[]> inverse = new ArrayList<>();
-    for (Map.Entry<Integer, Integer> entry : inverseMap.entrySet()) {
-        inverse.add(new int[] {entry.getKey(), entry.getValue()});
-    }
-    
-    return inverse.toArray(new int[inverse.size()][]);
-}
-
 
     /*
      * Aquí teniu alguns exemples i proves relacionades amb aquests exercicis (vegeu `main`)
@@ -525,11 +278,11 @@ static int exercici1(int[] a, int[] b, int[] c) {
 
       final int[] int08 = { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
 
-    //  assertThat(exercici2(int08, generateRel(int08, (x, y) -> y == x + 1)) == 81);
+      assertThat(exercici2(int08, generateRel(int08, (x, y) -> y == x + 1)) == 81);
 
-     // final int[] int123 = { 1, 2, 3 };
+      final int[] int123 = { 1, 2, 3 };
 
-      //assertThat(exercici2(int123, new int[][] { {1, 3} }) == 5);
+      assertThat(exercici2(int123, new int[][] { {1, 3} }) == 5);
 
       // Exercici 3
       // Si rel és un ordre total, retornar les arestes del diagrama de Hasse
@@ -615,7 +368,7 @@ static int exercici1(int[] a, int[] b, int[] c) {
       return rel.toArray(new int[][] {});
     }
 
-   
+    /// Especialització de generateRel per a = b
     static int[][] generateRel(int[] as, BiPredicate<Integer, Integer> pred) {
       return generateRel(as, as, pred);
     }
@@ -640,29 +393,26 @@ static int exercici1(int[] a, int[] b, int[] c) {
     /*
      * Determinau si el graf és connex. Podeu suposar que `g` no és dirigit.
      */
-        static boolean exercici1(int[][] g) {
-        int n = g.length;
-        boolean[] visited = new boolean[n];
-        Queue<Integer> queue = new LinkedList<>();
-       
-        queue.add(0);
-        visited[0] = true;
-        int visitedCount = 1;
-        
-        while (!queue.isEmpty()) {
-            int node = queue.poll();
-            for (int neighbor : g[node]) {
-                if (!visited[neighbor]) {
-                    visited[neighbor] = true;
-                    queue.add(neighbor);
-                    visitedCount++;
-                }
+    static boolean exercici1(int[][] g) {
+        if (g.length == 0) return true;
+        boolean[] conectado = new boolean[g.length];
+        connectividad(g, conectado, 0);
+        //comprobamos que todos los nodos se han podido conectar entre si 
+        //si alguno es falso ya no se cumple la connexividad
+        for (boolean v : conectado) {
+            if (!v) return false;
+        }
+        return true;
+    }
+    //comprobamos que el nodo se puede conectar 
+    static void connectividad(int[][] g, boolean[] conectado, int node) {
+        conectado[node] = true;
+        for (int nodoB : g[node]) {
+            if (!conectado[nodoB]) {
+                connectividad(g, conectado, nodoB);
             }
         }
-        
-        return visitedCount == n;
     }
-
 
     /*
      * Donat un tauler d'escacs d'amplada `w` i alçada `h`, determinau quin és el mínim nombre de
@@ -675,32 +425,36 @@ static int exercici1(int[] a, int[] b, int[] c) {
      *
      * Retornau el nombre mínim de moviments, o -1 si no és possible arribar-hi.
      */
-        static int exercici2(int w, int h, int i, int j) {
-        int[][] directions = { {2, 1}, {2, -1}, {-2, 1}, {-2, -1}, {1, 2}, {1, -2}, {-1, 2}, {-1, -2} };
-        boolean[] visited = new boolean[w * h];
-        Queue<int[]> queue = new LinkedList<>();
+    ///este lo ha hecho chatGPT 
+    static int exercici2(int w, int h, int i, int j) {
+         if (i == j) return 0;
         
-        queue.add(new int[] { i, 0 });
+        int[] dx = {1, 2, 2, 1, -1, -2, -2, -1};
+        int[] dy = {2, 1, -1, -2, -2, -1, 1, 2};
+        
+        boolean[] visited = new boolean[w * h];
+        int[][] queue = new int[w * h][2];
+        int front = 0, rear = 0;
+        
+        queue[rear++] = new int[]{i, 0};
         visited[i] = true;
         
-        while (!queue.isEmpty()) {
-            int[] current = queue.poll();
+        while (front < rear) {
+            int[] current = queue[front++];
             int pos = current[0];
-            int moves = current[1];
-            
-            if (pos == j) return moves;
-            
             int x = pos % w;
             int y = pos / w;
+            int moves = current[1];
             
-            for (int[] dir : directions) {
-                int nx = x + dir[0];
-                int ny = y + dir[1];
+            for (int k = 0; k < 8; k++) {
+                int nx = x + dx[k];
+                int ny = y + dy[k];
                 int newPos = ny * w + nx;
                 
                 if (nx >= 0 && nx < w && ny >= 0 && ny < h && !visited[newPos]) {
+                    if (newPos == j) return moves + 1;
+                    queue[rear++] = new int[]{newPos, moves + 1};
                     visited[newPos] = true;
-                    queue.add(new int[] { newPos, moves + 1 });
                 }
             }
         }
@@ -713,20 +467,28 @@ static int exercici1(int[] a, int[] b, int[] c) {
      * abans (o igual) que el vèrtex `v` al recorregut en preordre de l'arbre.
      */
     static boolean exercici3(int[][] g, int r, int u, int v) {
-        List<Integer> preOrderList = new ArrayList<>();
-        preOrderTraversal(g, r, preOrderList);
-        int uIndex = preOrderList.indexOf(u);
-        int vIndex = preOrderList.indexOf(v);
-        return uIndex <= vIndex;
+        int[] preOrden = new int[g.length];
+        int[] index = {0};
+        //lo pasamos para que se organicen 
+        PreOrden(g, r, preOrden, index);
+        //copmrobamos las posiciones el el posorden si es menor o igual true
+        return pos_orden(preOrden, u) <= pos_orden(preOrden, v);
     }
-
-    static void preOrderTraversal(int[][] g, int node, List<Integer> preOrderList) {
-        preOrderList.add(node);
+    //organizador de de los nodos en preorden
+    static void PreOrden(int[][] g, int node, int[] preOrder, int[] index) {
+        preOrder[index[0]++] = node;
         for (int neighbor : g[node]) {
-            preOrderTraversal(g, neighbor, preOrderList);
+            PreOrden(g, neighbor, preOrder, index);
         }
     }
-
+    //funcion que nos devuelve la posicion en la que se encuentra un nodo
+    static int pos_orden(int[] preOrder, int node) {
+        for (int i = 0; i < preOrder.length; i++) {
+            if (preOrder[i] == node) return i;
+        }
+        return -1;
+    }
+ 
 
     /*
      * Donat un recorregut en preordre (per exemple, el primer vèrtex que hi apareix és `preord[0]`)
@@ -735,29 +497,24 @@ static int exercici1(int[] a, int[] b, int[] c) {
      *
      * L'altura d'un arbre arrelat és la major distància de l'arrel a les fulles.
      */
-static int exercici4(int[] preord, int[] d) {
-    int maxHeight = 0;
-    int currentHeight = 0;
-    Stack<Integer> stack = new Stack<>();
-
-    for (int i = 0; i < preord.length; i++) {
-        int node = preord[i];
-        int depth = d[node];
+    static int exercici4(int[] preord, int[] d) {
+           int height = 0, currentDepth = 0;
+        int[] stack = new int[preord.length];
+        int top = -1;
         
-        while (!stack.isEmpty() && stack.peek() >= depth) {
-            stack.pop();
-            currentHeight--;
+        for (int i = 0; i < preord.length; i++) {
+            while (top >= 0 && stack[top] == 0) {
+                top--;
+                currentDepth--;
+            }
+            if (top >= 0) stack[top]--;
+            stack[++top] = d[preord[i]];
+            height = Math.max(height, currentDepth);
+            currentDepth++;
         }
         
-        stack.push(depth);
-        currentHeight++;
-        maxHeight = Math.max(maxHeight, currentHeight);
+        return height;
     }
-
-    return maxHeight;
-}
-
-
 
     /*
      * Aquí teniu alguns exemples i proves relacionades amb aquests exercicis (vegeu `main`)
@@ -824,6 +581,93 @@ static int exercici4(int[] preord, int[] d) {
     }
   }
 
+  /*
+   * Aquí teniu els exercicis del Tema 4 (Aritmètica).
+   *
+   * En aquest tema no podeu:
+   *  - Utilitzar la força bruta per resoldre equacions: és a dir, provar tots els nombres de 0 a n
+   *    fins trobar el que funcioni.
+   *  - Utilitzar long, float ni double.
+   *
+   * Si implementau algun dels exercicis així, tendreu un 0 d'aquell exercici.
+   */
+  static class Tema4 {
+    /*
+     * Calculau el mínim comú múltiple de `a` i `b`.
+     */
+    static int exercici1(int a, int b) {
+      return -1; // TO DO
+    }
+
+    /*
+     * Trobau totes les solucions de l'equació
+     *
+     *   a·x ≡ b (mod n)
+     *
+     * donant els seus representants entre 0 i n-1.
+     *
+     * Podeu suposar que `n > 1`. Recordau que no no podeu utilitzar la força bruta.
+     */
+    static int[] exercici2(int a, int b, int n) {
+      return new int[] {}; // TO DO
+    }
+
+    /*
+     * Donats `a != 0`, `b != 0`, `c`, `d`, `m > 1`, `n > 1`, determinau si el sistema
+     *
+     *   a·x ≡ c (mod m)
+     *   b·x ≡ d (mod n)
+     *
+     * té solució.
+     */
+    static boolean exercici3(int a, int b, int c, int d, int m, int n) {
+      return false; // TO DO
+    }
+
+    /*
+     * Donats `n` un enter, `k > 0` enter, i `p` un nombre primer, retornau el residu de dividir n^k
+     * entre p.
+     *
+     * Alerta perquè és possible que n^k sigui massa gran com per calcular-lo directament.
+     * De fet, assegurau-vos de no utilitzar cap valor superior a max{n, p²}.
+     *
+     * Anau alerta també abusant de la força bruta, la vostra implementació hauria d'executar-se en
+     * qüestió de segons independentment de l'entrada.
+     */
+    static int exercici4(int n, int k, int p) {
+      return -1; // TO DO
+    }
+
+    /*
+     * Aquí teniu alguns exemples i proves relacionades amb aquests exercicis (vegeu `main`)
+     */
+    static void tests() {
+      // Exercici 1
+      // mcm(a, b)
+
+      assertThat(exercici1(35, 77) == 5*7*11);
+      assertThat(exercici1(-8, 12) == 24);
+
+      // Exercici 2
+      // Solucions de a·x ≡ b (mod n)
+
+      assertThat(Arrays.equals(exercici2(2, 2, 4), new int[] { 1, 3 }));
+      assertThat(Arrays.equals(exercici2(3, 2, 4), new int[] { 2 }));
+
+      // Exercici 3
+      // El sistema a·x ≡ c (mod m), b·x ≡ d (mod n) té solució?
+
+      assertThat(exercici3(3, 2, 2, 2, 5, 4));
+      assertThat(!exercici3(3, 2, 2, 2, 10, 4));
+
+      // Exercici 4
+      // n^k mod p
+
+      assertThat(exercici4(2018, 2018, 5) == 4);
+      assertThat(exercici4(-2147483646, 2147483645, 46337) == 7435);
+    }
+  }
+
   /**
    * Aquest mètode `main` conté alguns exemples de paràmetres i dels resultats que haurien de donar
    * els exercicis. Podeu utilitzar-los de guia i també en podeu afegir d'altres (no els tendrem en
@@ -832,9 +676,10 @@ static int exercici4(int[] preord, int[] d) {
    * Podeu aprofitar el mètode `assertThat` per comprovar fàcilment que un valor sigui `true`.
    */
   public static void main(String[] args) {
-    Tema1.tests();
-    //Tema2.tests();
+    //Tema1.tests();
+   // Tema2.tests();
     Tema3.tests();
+   /// Tema4.tests();
   }
 
   /// Si b és cert, no fa res. Si b és fals, llança una excepció (AssertionError).
